@@ -18,3 +18,7 @@ done
 
 printf "Done\n"
 printf "#######################################################\n\n"
+
+printf "Listing certificate requests...\n\n"
+kubectl get certificaterequest -A 
+printf "#######################################################\n\n"

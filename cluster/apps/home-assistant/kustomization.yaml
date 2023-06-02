@@ -3,6 +3,7 @@ kind: Kustomization
 resources:
   - helm-release.yaml
   - config-pvc.yaml
+  - certificate.yaml
 secretGenerator:
 - name: service-key
   namespace: apps
