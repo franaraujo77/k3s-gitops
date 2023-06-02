@@ -1,7 +1,7 @@
 kind: StorageClass
 apiVersion: storage.k8s.io/v1
 metadata:
-  name: hass-storage-class
+  name: vscode-storage-class
   annotations:
     storageclass.kubernetes.io/is-default-class: "true"
 provisioner: driver.longhorn.io
@@ -16,12 +16,12 @@ parameters:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: home-assistant-data
+  name: code-data
   namespace: apps
 spec:
   accessModes:
     - ReadWriteOnce
-  storageClassName: hass-storage-class
+  storageClassName: vscode-storage-class
   resources:
     requests:
-      storage: 5Gi
+      storage: 10Gi

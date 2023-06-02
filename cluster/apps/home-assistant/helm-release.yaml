@@ -27,7 +27,7 @@ spec:
       repository: ghcr.io/home-assistant/home-assistant
       tag: 2023.5.4
     env:
-      TZ: "America/Chicago"
+      TZ: "America/Sao_Paulo"
     envFrom:
       - secretRef:
           name: home-assistant
@@ -36,10 +36,16 @@ spec:
     ingress:
       main:
         enabled: true
-        ingressClassName: "traefik"
         annotations:
-          cert-manager.io/cluster-issuer: "letsencrypt-production"
-          traefik.ingress.kubernetes.io/router.entrypoints: "websecure"
+          cert-manager.io/issuer: prod-issuer
+          cert-manager.io/issuer-kind: OriginIssuer
+          cert-manager.io/issuer-group: cert-manager.k8s.cloudflare.com
+          field.cattle.io/publicEndpoints: '[{"addresses":["${METALLB_TRAEFIK_ADDR}"],"port":443,"protocol":"HTTPS","serviceName":"apps:home-assistant","ingressName":"apps:home-assistant","hostname":"hass.${CLUSTER_DOMAIN}","allNodes":false}]'
+          meta.helm.sh/release-name: home-assistant
+          meta.helm.sh/release-namespace: apps
+          nginx.ingress.kubernetes.io/proxy-connect-timeout: "30"
+          nginx.ingress.kubernetes.io/proxy-read-timeout: "1800"
+          nginx.ingress.kubernetes.io/proxy-send-timeout: "1800"
         hosts:
           - host: hass.${SECRET_DOMAIN}
             paths:
@@ -78,10 +84,16 @@ spec:
           - "/config/.vscode"
         ingress:
           enabled: true
-          ingressClassName: "traefik"
           annotations:
-            cert-manager.io/cluster-issuer: letsencrypt-production
-            traefik.ingress.kubernetes.io/router.entrypoints: "websecure"
+            cert-manager.io/issuer: prod-issuer
+            cert-manager.io/issuer-kind: OriginIssuer
+            cert-manager.io/issuer-group: cert-manager.k8s.cloudflare.com
+            field.cattle.io/publicEndpoints: '[{"addresses":["${METALLB_TRAEFIK_ADDR}"],"port":443,"protocol":"HTTPS","serviceName":"apps:code-server","ingressName":"apps:code-server","hostname":"vscode.${CLUSTER_DOMAIN}","allNodes":false}]'
+            meta.helm.sh/release-name: code-server
+            meta.helm.sh/release-namespace: apps
+            nginx.ingress.kubernetes.io/proxy-connect-timeout: "30"
+            nginx.ingress.kubernetes.io/proxy-read-timeout: "1800"
+            nginx.ingress.kubernetes.io/proxy-send-timeout: "1800"
           hosts:
             - host: vscode.${SECRET_DOMAIN}
               paths:
