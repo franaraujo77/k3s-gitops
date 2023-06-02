@@ -3,5 +3,10 @@ kind: Kustomization
 resources:
   - helm-release.yaml
   - config-pvc.yaml
-  - code-server.sops.yaml
-  - home-assistant.sops.yaml
+secretGenerator:
+- name: service-key
+  namespace: apps
+  options:
+    disableNameSuffixHash: true
+  envs:
+  - cloudflare-originca-sops.env
