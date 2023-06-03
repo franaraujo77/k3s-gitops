@@ -8,12 +8,12 @@ spec:
   interval: 5m
   chart:
     spec:
-      # renovate: registryUrl=https://k8s-at-home.com/charts/
+      # renovate: registryUrl=https://charts.alekc.dev
       chart: home-assistant
-      version: 13.4.2
+      version: 19.0.25
       sourceRef:
         kind: HelmRepository
-        name: k8s-at-home-charts
+        name: alekc-charts
         namespace: flux-system
       interval: 5m
   install:
@@ -23,89 +23,40 @@ spec:
     remediation:
       remediateLastFailure: true
   values:
-    image:
-      repository: ghcr.io/home-assistant/home-assistant
-      tag: 2023.5.4
     env:
       TZ: "America/Sao_Paulo"
-    envFrom:
-      - secretRef:
-          name: home-assistant
-    #hostNetwork: true
-    #dnsPolicy: ClusterFirstWithHostNet
     ingress:
-      main:
-        enabled: true
-        annotations:
-          cert-manager.io/issuer: prod-issuer
-          cert-manager.io/issuer-kind: OriginIssuer
-          cert-manager.io/issuer-group: cert-manager.k8s.cloudflare.com
-          field.cattle.io/publicEndpoints: '[{"addresses":["${METALLB_TRAEFIK_ADDR}"],"port":443,"protocol":"HTTPS","serviceName":"apps:home-assistant","ingressName":"apps:home-assistant","hostname":"hass.${CLUSTER_DOMAIN}","allNodes":false}]'
-          meta.helm.sh/release-name: home-assistant
-          meta.helm.sh/release-namespace: apps
-          nginx.ingress.kubernetes.io/proxy-connect-timeout: "30"
-          nginx.ingress.kubernetes.io/proxy-read-timeout: "1800"
-          nginx.ingress.kubernetes.io/proxy-send-timeout: "1800"
-        hosts:
-          - host: hass.${SECRET_DOMAIN}
-            paths:
-              - path: /
-                pathType: Prefix
-        tls:
-          - hosts:
-              - hass.${SECRET_DOMAIN}
-            secretName: "hass-tls"
-    probes:
-      liveness:
-        enabled: false
-      readiness:
-        enabled: false
-      startup:
-        enabled: false
+      enabled: true
+      annotations:
+        cert-manager.io/issuer: prod-issuer
+        cert-manager.io/issuer-kind: OriginIssuer
+        cert-manager.io/issuer-group: cert-manager.k8s.cloudflare.com
+        field.cattle.io/publicEndpoints: '[{"addresses":["${METALLB_TRAEFIK_ADDR}"],"port":443,"protocol":"HTTPS","serviceName":"apps:home-assistant","ingressName":"apps:home-assistant","hostname":"hass.${CLUSTER_DOMAIN}","allNodes":false}]'
+        meta.helm.sh/release-name: home-assistant
+        meta.helm.sh/release-namespace: apps
+        nginx.ingress.kubernetes.io/proxy-connect-timeout: "30"
+        nginx.ingress.kubernetes.io/proxy-read-timeout: "1800"
+        nginx.ingress.kubernetes.io/proxy-send-timeout: "1800"
+        nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+      hosts:
+        - host: hass.${SECRET_DOMAIN}
+          paths:
+            - path: /
+              pathType: Prefix
+      tls:
+        - hosts:
+            - hass.${SECRET_DOMAIN}
+          secretName: "hass-tls"
     persistence:
-      config:
-        enabled: true
-        existingClaim: home-assistant-data
-    addons:
-      codeserver:
-        enabled: true
-        image:
-          repository: ghcr.io/k8s-at-home/code-server
-          tag: v4.6.0
-        git:
-          deployKeySecret: code-server
-        workingDir: "/config"
-        args:
-          - --auth
-          - "none"
-          - --user-data-dir
-          - "/config/.vscode"
-          - --extensions-dir
-          - "/config/.vscode"
-        ingress:
-          enabled: true
-          annotations:
-            cert-manager.io/issuer: prod-issuer
-            cert-manager.io/issuer-kind: OriginIssuer
-            cert-manager.io/issuer-group: cert-manager.k8s.cloudflare.com
-            field.cattle.io/publicEndpoints: '[{"addresses":["${METALLB_TRAEFIK_ADDR}"],"port":443,"protocol":"HTTPS","serviceName":"apps:code-server","ingressName":"apps:code-server","hostname":"vscode.${CLUSTER_DOMAIN}","allNodes":false}]'
-            meta.helm.sh/release-name: code-server
-            meta.helm.sh/release-namespace: apps
-            nginx.ingress.kubernetes.io/proxy-connect-timeout: "30"
-            nginx.ingress.kubernetes.io/proxy-read-timeout: "1800"
-            nginx.ingress.kubernetes.io/proxy-send-timeout: "1800"
-          hosts:
-            - host: vscode.${SECRET_DOMAIN}
-              paths:
-                - path: /
-                  pathType: Prefix
-          tls:
-            - hosts:
-                - vscode.${SECRET_DOMAIN}
-              secretName: "vscode-tls"
-        volumeMounts:
-          - name: config
-            mountPath: /config
+      enabled: true
+      existingClaim: home-assistant-data
+      additionalVolumes:
+        - name: config
+          persistentVolumeClaim:
+            claimName: home-assistant-config
+      additionalMounts:
+        - name: config
+          mountPath: /config
     resources:
       requests:
         cpu: 100m
