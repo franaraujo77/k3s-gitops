@@ -9,8 +9,8 @@ spec:
   chart:
     spec:
       # renovate: registryUrl=https://charts.alekc.dev
-      chart: home-assistant
-      version: 19.0.25
+      chart: alekc/home-assistant
+      version: 0.3.9
       sourceRef:
         kind: HelmRepository
         name: alekc-charts
