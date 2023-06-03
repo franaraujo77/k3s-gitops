@@ -39,13 +39,13 @@ spec:
         nginx.ingress.kubernetes.io/proxy-send-timeout: "1800"
         nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
       hosts:
-        - host: hass.${SECRET_DOMAIN}
+        - host: hass.${CLUSTER_DOMAIN}
           paths:
             - path: /
               pathType: Prefix
       tls:
         - hosts:
-            - hass.${SECRET_DOMAIN}
+            - hass.${CLUSTER_DOMAIN}
           secretName: "hass-tls"
     persistence:
       enabled: true

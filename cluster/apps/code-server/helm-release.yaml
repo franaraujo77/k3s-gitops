@@ -49,13 +49,13 @@ spec:
         nginx.ingress.kubernetes.io/proxy-send-timeout: "1800"
         nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
       hosts:
-        - host: vscode.${SECRET_DOMAIN}
+        - host: vscode.${CLUSTER_DOMAIN}
           paths:
             - path: /
               pathType: Prefix
       tls:
         - hosts:
-            - vscode.${SECRET_DOMAIN}
+            - vscode.${CLUSTER_DOMAIN}
           secretName: "code-server-tls"
     persistence:
       config:
