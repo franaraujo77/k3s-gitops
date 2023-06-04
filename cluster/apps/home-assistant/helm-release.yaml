@@ -23,6 +23,8 @@ spec:
     remediation:
       remediateLastFailure: true
   values:
+    image:
+      tag: stable
     env:
       TZ: "America/Sao_Paulo"
     ingress:
