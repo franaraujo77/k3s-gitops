@@ -1,0 +1,10 @@
+---
+apiVersion: source.toolkit.fluxcd.io/v1beta1
+kind: HelmRepository
+metadata:
+  name: djjudas21-charts
+  namespace: flux-system
+spec:
+  interval: 15m
+  url: https://djjudas21.github.io/charts/
+  timeout: 3m
