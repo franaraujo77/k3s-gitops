@@ -23,6 +23,8 @@ spec:
     remediation:
       remediateLastFailure: true
   values:
+    image:
+      tag: latest
     env:
       TZ: "America/Sao_Paulo"
     serviceMonitor:
