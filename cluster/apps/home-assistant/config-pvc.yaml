@@ -20,7 +20,7 @@ metadata:
   namespace: apps
 spec:
   accessModes:
-    - ReadWriteOnce
+    - ReadWriteMany
   storageClassName: hass-storage-class
   resources:
     requests:
