@@ -50,14 +50,14 @@ spec:
     persistence:
       enabled: true
       existingClaim: home-assistant-data
-        additionalVolumes:
-          - name: config-file
-            configMap:
-              name: home-assistant-config-file
-        additionalMounts:
-          - name: config-file
-            mountPath: /config/configuration.yaml
-            subPath: configuration.yaml
+      additionalVolumes:
+        - name: config-file
+          configMap:
+            name: home-assistant-config-file
+      additionalMounts:
+        - name: config-file
+          mountPath: /config/configuration.yaml
+          subPath: configuration.yaml
     resources:
       requests:
         cpu: 100m
