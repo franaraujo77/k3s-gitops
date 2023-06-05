@@ -27,10 +27,10 @@ data:
     tts:
       - platform: google_translate
 
-    group: !include groups.yaml
-    automation: !include automations.yaml
-    script: !include scripts.yaml
-    scene: !include scenes.yaml
+    #group: !include groups.yaml
+    #automation: !include automations.yaml
+    #script: !include scripts.yaml
+    #scene: !include scenes.yaml
 
     http:
       use_x_forwarded_for: true
