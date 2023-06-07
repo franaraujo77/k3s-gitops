@@ -72,11 +72,10 @@ kind: PersistentVolumeClaim
 metadata:
   name: home-assistant-data
   namespace: apps
-  annotations:
-    volume.beta.kubernetes.io/storage-class: "managed-nfs-storage"
 spec:
   accessModes:
     - ReadWriteMany
+  storageClassName: nfs-client
   resources:
     requests:
       storage: 5Gi
