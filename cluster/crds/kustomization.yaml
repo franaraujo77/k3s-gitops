@@ -4,3 +4,4 @@ resources:
   - cloudflase-issuer
   - cert-manager
   - traefik
+  - nfs-provisioner
