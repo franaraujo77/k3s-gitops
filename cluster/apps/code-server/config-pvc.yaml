@@ -18,10 +18,12 @@ kind: PersistentVolumeClaim
 metadata:
   name: code-data
   namespace: apps
+  annotations:
+    volume.beta.kubernetes.io/storage-class: "managed-nfs-storage"
 spec:
   accessModes:
     - ReadWriteOnce
   storageClassName: vscode-storage-class
   resources:
     requests:
-      storage: 10Gi
+      storage: 5Gi
