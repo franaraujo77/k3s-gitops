@@ -18,6 +18,7 @@ resources:
   - jaeger-charts.yaml
   - jetstack-charts.yaml
   - kube-dashboard-charts.yaml
+  - kubernetes-sigs-charts.yaml
   - longhorn-charts.yaml
   - metallb-charts.yaml
   - metrics-server-charts.yaml
