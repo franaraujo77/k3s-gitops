@@ -20,9 +20,11 @@ spec:
       tag: latest
     nfs:
       server: ${NFS_SERVER_ADDRESS}
+      path: ${NFS_SHARE_FOLDER}
     storageClass:
       provisionerName: k8s-sigs.io/nfs-subdir-external-provisioner
       onDelete: retain
       accessModes: ReadWriteMany
       volumeBindingMode: WaitForFirstConsumer
       defaultClass: true
+      pathPattern: "${.PVC.namespace}/${.PVC.name}"
