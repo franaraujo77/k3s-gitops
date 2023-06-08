@@ -16,8 +16,6 @@ spec:
         name: kubernetes-sigs-charts
         namespace: flux-system
   values:
-    image:
-      tag: latest
     nfs:
       server: ${NFS_SERVER_ADDRESS}
       path: ${NFS_SHARE_FOLDER}
