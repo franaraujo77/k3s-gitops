@@ -1,10 +1,10 @@
-kind: StorageClass
 apiVersion: storage.k8s.io/v1
+kind: StorageClass
 metadata:
-  name: hass-storage-class
+  name: nfs-client
   annotations:
     storageclass.kubernetes.io/is-default-class: "true"
-provisioner: driver.longhorn.io
+provisioner: k8s-sigs.io/nfs-subdir-external-provisioner # or choose another name, must match deployment's env PROVISIONER_NAME'
 allowVolumeExpansion: true
 volumeBindingMode: WaitForFirstConsumer
 parameters:
@@ -12,6 +12,7 @@ parameters:
   staleReplicaTimeout: "2880" # 48 hours in minutes
   replicaAutoBalance: "least-effort"
   fsType: "ext4"
+  archiveOnDelete: "false"
 ---
 apiVersion: v1
 kind: ConfigMap

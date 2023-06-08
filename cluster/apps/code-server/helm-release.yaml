@@ -6,6 +6,9 @@ metadata:
   namespace: apps
 spec:
   interval: 5m
+  dependsOn:
+    - name: home-assistant
+      namespace: apps
   chart:
     spec:
       # renovate: registryUrl=https://nicholaswilde.github.io/helm-charts/
