@@ -26,6 +26,9 @@ spec:
     remediation:
       remediateLastFailure: true
   values:
+    extraArgs:
+      - --user-data-dir
+      - /data/config/.vscode
     image:
       repository: ghcr.io/linuxserver/code-server
       tag: "version-v3.11.1"
@@ -64,4 +67,4 @@ spec:
       config:
         enabled: true
         existingClaim: home-assistant-data
-        mountPath: /config
+        mountPath: /data/config
