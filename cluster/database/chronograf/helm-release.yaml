@@ -7,6 +7,9 @@ metadata:
 spec:
   releaseName: chronograf
   interval: 5m
+  dependsOn:
+    - name: influxdb
+      namespace: database
   chart:
     spec:
       # renovate: registryUrl=https://helm.influxdata.com/
