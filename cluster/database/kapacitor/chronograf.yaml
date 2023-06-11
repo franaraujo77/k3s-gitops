@@ -1,13 +1,13 @@
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: chronograf-karva
+  name: kapacitor-karva
   namespace: database
 spec:
   # The secret name where cert-manager should store the signed certificate
-  secretName: chronograf-karva-tls
+  secretName: kapacitor-karva-tls
   dnsNames:
-    - chronograf.${CLUSTER_DOMAIN}
+    - kapacitor.${CLUSTER_DOMAIN}
   # Duration of the certificate
   duration: 1680h
   # Renew a day before the certificate expiration
