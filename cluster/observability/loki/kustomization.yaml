@@ -5,3 +5,4 @@ resources:
   - dashboard
   - helm-release.yaml
   - prometheus-rule.yaml
+  - config-pvc.yaml
