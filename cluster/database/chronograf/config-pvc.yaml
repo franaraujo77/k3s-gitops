@@ -16,7 +16,7 @@ parameters:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: chronograf-data
+  name: chronograf-chronograf
   namespace: database
 spec:
   accessModes:
