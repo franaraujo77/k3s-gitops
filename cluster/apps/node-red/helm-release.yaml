@@ -1,0 +1,70 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: nodered
+  namespace: apps
+spec:
+  interval: 5m
+  dependsOn:
+    - name: home-assistant
+      namespace: apps
+  chart:
+    spec:
+      # renovate: registryUrl=https://schwarzit.github.io/node-red-chart/
+      chart: node-red
+      version: 0.24.1
+      sourceRef:
+        kind: HelmRepository
+        name: schwarzit-charts
+        namespace: flux-system
+      interval: 5m
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    remediation:
+      remediateLastFailure: true
+  values:
+    extraArgs:
+      - --user-data-dir
+      - /data/config/.nodered
+    env:
+      TZ: "America/Sao_Paulo"
+    extraSidecars: {}
+    metrics:
+      enabled: true
+      serviceMonitor:
+        enabled: true
+    npmrc:
+      enabled: true
+    service:
+      enabled: true
+      type: ClusterIP
+      port:
+        port: 8443
+    ingress:
+      enabled: true
+      annotations:
+        cert-manager.io/issuer: prod-issuer
+        cert-manager.io/issuer-kind: OriginIssuer
+        cert-manager.io/issuer-group: cert-manager.k8s.cloudflare.com
+        field.cattle.io/publicEndpoints: '[{"addresses":["${METALLB_TRAEFIK_ADDR}"],"port":443,"protocol":"HTTPS","serviceName":"apps:nodered","ingressName":"apps:nodered","hostname":"nodered.${CLUSTER_DOMAIN}","allNodes":false}]'
+        meta.helm.sh/release-name: nodered
+        meta.helm.sh/release-namespace: apps
+        nginx.ingress.kubernetes.io/proxy-connect-timeout: "30"
+        nginx.ingress.kubernetes.io/proxy-read-timeout: "1800"
+        nginx.ingress.kubernetes.io/proxy-send-timeout: "1800"
+        nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+      hosts:
+        - host: nodered.${CLUSTER_DOMAIN}
+          paths:
+            - path: /
+              pathType: Prefix
+      tls:
+        - hosts:
+            - nodered.${CLUSTER_DOMAIN}
+          secretName: "nodered-tls"
+    persistence:
+      enabled: true
+      existingClaim: home-assistant-data
