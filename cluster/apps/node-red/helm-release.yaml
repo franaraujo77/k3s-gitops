@@ -62,6 +62,8 @@ spec:
             - path: /
               pathType: Prefix
       tls:
+        certificate:
+          enabled: false
         - hosts:
             - nodered.${CLUSTER_DOMAIN}
           secretName: "nodered-tls"
