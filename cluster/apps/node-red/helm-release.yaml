@@ -62,11 +62,11 @@ spec:
             - path: /
               pathType: Prefix
       tls:
-        certificate:
-          enabled: false
         - hosts:
             - nodered.${CLUSTER_DOMAIN}
           secretName: "nodered-tls"
+          certificate:
+            enabled: false
     persistence:
       enabled: true
       existingClaim: home-assistant-data
