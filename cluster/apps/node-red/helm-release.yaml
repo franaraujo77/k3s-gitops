@@ -11,7 +11,7 @@ spec:
       namespace: apps
   chart:
     spec:
-      # renovate: registryUrl=https://schwarzit.github.io/node-red-chart/
+      # renovate: registryUrl=oci://ghcr.io/schwarzit/charts/node-red
       chart: node-red
       version: 0.24.1
       sourceRef:
