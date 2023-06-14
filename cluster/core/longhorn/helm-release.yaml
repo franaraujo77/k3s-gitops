@@ -22,7 +22,7 @@ spec:
       tolerations:
       - key: node-role.kubernetes.io/master
         operator: Equal
-        value: True
+        value: "true"
         effect: NoSchedule
 
     longhornDriver:
@@ -30,7 +30,7 @@ spec:
       tolerations:
       - key: node-role.kubernetes.io/master
         operator: Equal
-        value: True
+        value: "true"
         effect: NoSchedule
 
     longhornUI:
@@ -38,5 +38,5 @@ spec:
       tolerations:
       - key: node-role.kubernetes.io/master
         operator: Equal
-        value: True
+        value: "true"
         effect: NoSchedule 
