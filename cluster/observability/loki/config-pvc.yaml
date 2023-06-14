@@ -1,7 +1,7 @@
 kind: StorageClass
 apiVersion: storage.k8s.io/v1
 metadata:
-  name: loki-storage-class
+  name: loki-storage-class-temp
   annotations:
     storageclass.kubernetes.io/is-default-class: "false"
 provisioner: driver.longhorn.io
@@ -13,3 +13,17 @@ parameters:
   replicaAutoBalance: "least-effort"
   fsType: "ext4"
   nodeSelector: "!node-role.kubernetes.io/master"
+---
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: loki-storage-class
+  namespace: apps
+  annotations:
+    storageclass.kubernetes.io/is-default-class: "false"
+provisioner: k8s-sigs.io/nfs-subdir-external-provisioner # or choose another name, must match deployment's env PROVISIONER_NAME'
+volumeBindingMode: WaitForFirstConsumer
+parameters:
+  pathPattern: "apps/loki-storage-class"
+  onDelete: retain
+  accessModes: ReadWriteMany

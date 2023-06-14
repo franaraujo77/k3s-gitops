@@ -14,6 +14,20 @@ parameters:
   fsType: "ext4"
   nodeSelector: "!node-role.kubernetes.io/master"
 ---
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: nfs-client-kapacitor
+  namespace: apps
+  annotations:
+    storageclass.kubernetes.io/is-default-class: "false"
+provisioner: k8s-sigs.io/nfs-subdir-external-provisioner # or choose another name, must match deployment's env PROVISIONER_NAME'
+volumeBindingMode: WaitForFirstConsumer
+parameters:
+  pathPattern: "apps/nfs-client-kapacitor"
+  onDelete: retain
+  accessModes: ReadWriteMany
+---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
@@ -22,7 +36,7 @@ metadata:
 spec:
   accessModes:
     - ReadWriteOnce
-  storageClassName: kapacitor-storage-class
+  storageClassName: nfs-client-kapacitor
   resources:
     requests:
       storage: 10Gi
