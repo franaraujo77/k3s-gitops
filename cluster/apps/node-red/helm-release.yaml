@@ -39,10 +39,8 @@ spec:
     npmrc:
       enabled: true
     service:
-      enabled: true
       type: ClusterIP
-      port:
-        port: 8443
+      port: 8443
     ingress:
       enabled: true
       annotations:
