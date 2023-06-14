@@ -24,6 +24,8 @@ spec:
         operator: Equal
         value: "true"
         effect: NoSchedule
+      nodeSelector: 
+      - node-role.kubernetes.io/master: "false"
 
     longhornDriver:
       priorityClass: ~
@@ -32,6 +34,8 @@ spec:
         operator: Equal
         value: "true"
         effect: NoSchedule
+      nodeSelector: 
+      - node-role.kubernetes.io/master: "false"
 
     longhornUI:
       priorityClass: ~
@@ -40,3 +44,5 @@ spec:
         operator: Equal
         value: "true"
         effect: NoSchedule 
+      nodeSelector: 
+      - node-role.kubernetes.io/master: "false"
