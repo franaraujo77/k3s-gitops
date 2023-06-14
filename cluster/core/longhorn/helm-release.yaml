@@ -15,3 +15,28 @@ spec:
         kind: HelmRepository
         name: longhorn-charts
         namespace: flux-system
+  values:
+    # Declare values passed into templates.
+    longhornManager:
+      priorityClass: ~
+      tolerations:
+      - key: node-role.kubernetes.io/master
+        operator: Equal
+        value: true
+        effect: NoSchedule
+
+    longhornDriver:
+      priorityClass: ~
+      tolerations:
+      - key: node-role.kubernetes.io/master
+        operator: Equal
+        value: true
+        effect: NoSchedule
+
+    longhornUI:
+      priorityClass: ~
+      tolerations:
+      - key: node-role.kubernetes.io/master
+        operator: Equal
+        value: true
+        effect: NoSchedule 
