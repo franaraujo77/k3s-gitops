@@ -14,9 +14,9 @@ spec:
     kind: GitRepository
     name: flux-system
   healthChecks:
-    - apiVersion: helm.toolkit.fluxcd.io/v2beta1
-      kind: HelmRelease
-      name: longhorn
+    - apiVersion: apps/v1
+      kind: Deployment
+      name: longhorn-driver-deployer
       namespace: core
   decryption:
     provider: sops
