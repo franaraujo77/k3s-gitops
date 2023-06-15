@@ -5,6 +5,7 @@ metadata:
   name: kapacitor
   namespace: database
 spec:
+  interval: 10m
   releaseName: kapacitor
   dependsOn:
     - name: influxdb

@@ -5,6 +5,7 @@ metadata:
   name: longhorn
   namespace: core
 spec:
+  interval: 1h
   chart:
     spec:
       # renovate: registryUrl=https://charts.longhorn.io

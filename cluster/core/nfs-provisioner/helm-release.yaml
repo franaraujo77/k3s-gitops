@@ -5,6 +5,7 @@ metadata:
   name: nfs-provisioner
   namespace: core
 spec:
+  interval: 1h
   chart:
     spec:
       # renovate: registryUrl=https://kubernetes-sigs.github.io/nfs-subdir-external-provisioner

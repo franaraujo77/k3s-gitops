@@ -5,6 +5,7 @@ metadata:
   name: influxdb
   namespace: database
 spec:
+  interval: 1h
   releaseName: influxdb
   chart:
     spec:

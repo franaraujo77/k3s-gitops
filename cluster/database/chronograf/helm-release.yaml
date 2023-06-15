@@ -5,6 +5,7 @@ metadata:
   name: chronograf
   namespace: database
 spec:
+  interval: 10m
   releaseName: chronograf
   dependsOn:
     - name: influxdb

@@ -5,6 +5,7 @@ metadata:
   name: jaeger
   namespace: observability
 spec:
+  interval: 10m
   chart:
     spec:
       # renovate: registryUrl=https://jaegertracing.github.io/helm-charts
