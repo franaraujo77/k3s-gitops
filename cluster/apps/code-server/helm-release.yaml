@@ -5,7 +5,6 @@ metadata:
   name: code-server
   namespace: apps
 spec:
-  interval: 5m
   dependsOn:
     - name: home-assistant
       namespace: apps

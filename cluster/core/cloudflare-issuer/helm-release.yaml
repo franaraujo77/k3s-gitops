@@ -5,7 +5,6 @@ metadata:
   name: cloudflare-issuer
   namespace: core
 spec: 
-  interval: 5m
   dependsOn:
     - name: cert-manager
       namespace: core
