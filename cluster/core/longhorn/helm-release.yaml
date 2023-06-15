@@ -18,16 +18,13 @@ spec:
   values:
     # Declare values passed into templates.
     longhornManager:
-      priorityClass: ~
       nodeSelector: 
       - node-role.kubernetes.io/master: "false"
 
     longhornDriver:
-      priorityClass: ~
       nodeSelector: 
       - node-role.kubernetes.io/master: "false"
 
     longhornUI:
-      priorityClass: ~
       nodeSelector: 
       - node-role.kubernetes.io/master: "false"
