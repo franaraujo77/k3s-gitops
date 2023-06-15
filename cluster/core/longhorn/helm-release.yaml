@@ -19,30 +19,15 @@ spec:
     # Declare values passed into templates.
     longhornManager:
       priorityClass: ~
-      tolerations:
-      - key: node-role.kubernetes.io/master
-        operator: Equal
-        value: "true"
-        effect: NoSchedule
       nodeSelector: 
       - node-role.kubernetes.io/master: "false"
 
     longhornDriver:
       priorityClass: ~
-      tolerations:
-      - key: node-role.kubernetes.io/master
-        operator: Equal
-        value: "true"
-        effect: NoSchedule
       nodeSelector: 
       - node-role.kubernetes.io/master: "false"
 
     longhornUI:
       priorityClass: ~
-      tolerations:
-      - key: node-role.kubernetes.io/master
-        operator: Equal
-        value: "true"
-        effect: NoSchedule 
       nodeSelector: 
       - node-role.kubernetes.io/master: "false"
