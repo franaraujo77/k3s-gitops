@@ -13,6 +13,11 @@ spec:
   sourceRef:
     kind: GitRepository
     name: flux-system
+  healthChecks:
+    - apiVersion: apps/v1
+      kind: HelmRelease
+      name: longhorn
+      namespace: core
   decryption:
     provider: sops
     secretRef:
