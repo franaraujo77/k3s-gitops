@@ -21,6 +21,8 @@ spec:
         namespace: flux-system
       interval: 5m
   values:
+    image:
+      tag: latest
     service:
       type: ClusterIP
       port: 80
