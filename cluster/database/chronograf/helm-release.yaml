@@ -56,4 +56,4 @@ spec:
       storageClass: nfs-client-chronograf
       size: 10Gi
     influxdb:
-      existingSecret: influxdb-influxdb2-auth
+      existingSecret: influxdb-access-auth

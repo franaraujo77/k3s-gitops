@@ -16,6 +16,8 @@ envsubst < "${PROJECT_DIR}/tmpl/cluster/cert-manager-secret.sops.yaml" \
     > "${PROJECT_DIR}/cluster/core/cert-manager/secret.sops.yaml"
 envsubst < "${PROJECT_DIR}/tmpl/cluster/rancher-bootstrap-sops.env" \
     > "${PROJECT_DIR}/cluster/core/rancher/rancher-bootstrap-sops.env"
+envsubst < "${PROJECT_DIR}/tmpl/cluster/influxdb-access.env" \
+    > "${PROJECT_DIR}/cluster/database/influxdb/influxdb-access.env"
 
 # create unique cloudflare resources
 envsubst < "${PROJECT_DIR}/tmpl/cluster/cloudflare-originca-sops.env" \
@@ -33,6 +35,7 @@ envsubst < "${PROJECT_DIR}/tmpl/cluster/cloudflare-originca-sops.env" \
 sops --encrypt --in-place "${PROJECT_DIR}/cluster/base/cluster-secrets.sops.yaml"
 sops --encrypt --in-place "${PROJECT_DIR}/cluster/core/cert-manager/secret.sops.yaml"
 sops --encrypt --in-place "${PROJECT_DIR}/cluster/core/rancher/rancher-bootstrap-sops.env"
+sops --encrypt --in-place "${PROJECT_DIR}/cluster/database/influxdb/influxdb-access.env"
 
 # encrypt cloudflare resource
 sops --encrypt --in-place "${PROJECT_DIR}/cluster/core/rancher/cloudflare-originca-sops.env"
@@ -44,6 +47,7 @@ sops --encrypt --in-place "${PROJECT_DIR}/cluster/apps/home-assistant/cloudflare
 git add cluster/base/cluster-secrets.sops.yaml
 git add cluster/core/cert-manager/secret.sops.yaml
 git add cluster/core/rancher/rancher-bootstrap-sops.env
+git add cluster/database/influxdb/influxdb-access.env
 
 # add cloudflare resources
 git add cluster/core/rancher/cloudflare-originca-sops.env

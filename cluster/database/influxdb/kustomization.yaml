@@ -11,3 +11,9 @@ secretGenerator:
     disableNameSuffixHash: true
   envs:
   - cloudflare-originca-sops.env
+- name: influxdb-access-auth
+  namespace: database
+  options:
+    disableNameSuffixHash: true
+  envs:
+  - influxdb-access.env

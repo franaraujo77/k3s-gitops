@@ -57,7 +57,7 @@ spec:
       enabled: true
       existingClaim: kapacitor-data
     influxURL: http://influxdb-influxdb2-0
-    existingSecret: influxdb-influxdb2-auth
+    existingSecret: influxdb-access-auth
     sidecar:
       skipTlsVerify: true
       sideload:
