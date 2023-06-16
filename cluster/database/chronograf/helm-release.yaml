@@ -53,8 +53,7 @@ spec:
       periodSeconds: 10
     persistence:
       enabled: true
-      useExisting: true
-      name: chronograf-data
-      mountPath: /var/lib/chronograf
+      storageClass: nfs-client-chronograf
+      size: 10Gi
     influxdb:
       existingSecret: influxdb-influxdb2-auth

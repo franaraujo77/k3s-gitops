@@ -27,16 +27,3 @@ parameters:
   pathPattern: "apps/nfs-client-chronograf"
   onDelete: retain
   accessModes: ReadWriteMany
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: chronograf-chronograf
-  namespace: database
-spec:
-  accessModes:
-    - ReadWriteOnce
-  storageClassName: nfs-client-chronograf
-  resources:
-    requests:
-      storage: 10Gi
