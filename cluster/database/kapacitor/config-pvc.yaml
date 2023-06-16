@@ -28,6 +28,20 @@ parameters:
   onDelete: retain
   accessModes: ReadWriteMany
 ---
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: nfs-client-kapacitor-sidecar
+  namespace: apps
+  annotations:
+    storageclass.kubernetes.io/is-default-class: "false"
+provisioner: k8s-sigs.io/nfs-subdir-external-provisioner # or choose another name, must match deployment's env PROVISIONER_NAME'
+volumeBindingMode: WaitForFirstConsumer
+parameters:
+  pathPattern: "apps/nfs-client-kapacitor-sidecar"
+  onDelete: retain
+  accessModes: ReadWriteMany
+---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
@@ -37,6 +51,19 @@ spec:
   accessModes:
     - ReadWriteOnce
   storageClassName: nfs-client-kapacitor
+  resources:
+    requests:
+      storage: 10Gi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: sc-sideload-volume
+  namespace: database
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: nfs-client-kapacitor-sidecar
   resources:
     requests:
       storage: 10Gi
