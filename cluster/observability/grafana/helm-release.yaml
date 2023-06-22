@@ -20,7 +20,7 @@ spec:
     image:
       repository: grafana/grafana
       # Overrides the Grafana image tag whose default is the chart appVersion
-      tag: ""
+      tag: "latest"
       pullPolicy: IfNotPresent
     replicas: 1
     env:
@@ -153,6 +153,8 @@ spec:
           #url: https://raw.githubusercontent.com/k8s-at-home/grafana-dashboards/main/cyberpower-pdu41001-snmp.json
           #datasource: Prometheus
     sidecar:
+      image:
+        tag: latest
       dashboards:
         enabled: true
         searchNamespace: ALL
