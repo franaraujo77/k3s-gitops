@@ -60,5 +60,6 @@ spec:
     existingSecret: influxdb-access-auth
     sidecar:
       skipTlsVerify: true
+      image: kiwigrid/k8s-sidecar:latest
       sideload:
         enabled: true
