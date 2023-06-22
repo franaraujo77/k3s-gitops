@@ -5,7 +5,7 @@ metadata:
   name: observability
   namespace: flux-system
 spec:
-  interval: 1h
+  interval: 10m
   dependsOn:
     - name: database
   path: ./cluster/observability
