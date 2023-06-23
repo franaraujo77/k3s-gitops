@@ -94,6 +94,8 @@ spec:
               - prometheus.${CLUSTER_DOMAIN}
             secretName: prometheus-tls
       prometheusSpec:
+        scrapeInterval: 30s
+        evaluationInterval: 30s
         replicas: 1
         replicaExternalLabelName: "replica"
         ruleSelectorNilUsesHelmValues: false
