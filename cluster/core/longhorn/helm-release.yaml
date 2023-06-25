@@ -19,12 +19,12 @@ spec:
     # Declare values passed into templates.
     longhornManager:
       nodeSelector: 
-        node-role.kubernetes.io/worker: ""
+        node-role.kubernetes.io/worker: "true"
 
     longhornDriver:
       nodeSelector: 
-        node-role.kubernetes.io/worker: ""
+        node-role.kubernetes.io/worker: "true"
 
     longhornUI:
       nodeSelector: 
-        node-role.kubernetes.io/worker: ""
+        node-role.kubernetes.io/worker: "true"
