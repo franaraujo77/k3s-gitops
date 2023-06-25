@@ -20,7 +20,7 @@ metadata:
   namespace: apps
 spec:
   accessModes:
-    - ReadWriteOnce
+    - ReadWriteMany
   storageClassName: heimdall-storage-class
   resources:
     requests:
