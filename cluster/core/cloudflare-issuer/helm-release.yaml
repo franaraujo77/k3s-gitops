@@ -6,9 +6,6 @@ metadata:
   namespace: cert-manager
 spec: 
   interval: 1h
-  dependsOn:
-    - name: cert-manager
-      namespace: cert-manager
   chart:
     spec:
       # renovate: registryUrl=https://cloudflare.github.io/origin-ca-issuer/charts
