@@ -1,17 +1,17 @@
-kind: StorageClass
+---
 apiVersion: storage.k8s.io/v1
+kind: StorageClass
 metadata:
-  name: heimdall-storage-class
+  name: nfs-client-heimdall
+  namespace: apps
   annotations:
     storageclass.kubernetes.io/is-default-class: "false"
-provisioner: openebs-jiva-csi-default
-allowVolumeExpansion: true
+provisioner: k8s-sigs.io/nfs-subdir-external-provisioner # or choose another name, must match deployment's env PROVISIONER_NAME'
 volumeBindingMode: WaitForFirstConsumer
 parameters:
-  numberOfReplicas: "2"
-  staleReplicaTimeout: "2880" # 48 hours in minutes
-  replicaAutoBalance: "least-effort"
-  fsType: "ext4"
+  pathPattern: "apps/nfs-client-heimdall"
+  onDelete: retain
+  accessModes: ReadWriteMany
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -21,7 +21,7 @@ metadata:
 spec:
   accessModes:
     - ReadWriteMany
-  storageClassName: heimdall-storage-class
+  storageClassName: nfs-client-heimdall
   resources:
     requests:
       storage: 5Gi
