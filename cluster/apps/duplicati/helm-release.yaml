@@ -24,6 +24,7 @@ spec:
       tag: "latest"
     ingress:
       enabled: true
+      class: traefik
       annotations:
         cert-manager.io/issuer: prod-issuer
         cert-manager.io/issuer-kind: OriginIssuer
