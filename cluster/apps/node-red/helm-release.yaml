@@ -26,6 +26,8 @@ spec:
     remediation:
       remediateLastFailure: true
   values:
+    image:
+      tag: latest
     extraArgs:
       - --user-data-dir
       - /data/config/.nodered
