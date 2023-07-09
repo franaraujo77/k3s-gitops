@@ -31,7 +31,7 @@ spec:
       - /data/config/.vscode
     image:
       repository: ghcr.io/linuxserver/code-server
-      tag: "version-v3.11.1"
+      tag: "latest"
     service:
       enabled: true
       type: ClusterIP
