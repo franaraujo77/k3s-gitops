@@ -49,4 +49,3 @@ spec:
       config:
         enabled: true
         existingClaim: duplicati-data
-      data: /data/config
