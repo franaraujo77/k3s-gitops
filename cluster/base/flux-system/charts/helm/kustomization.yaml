@@ -6,6 +6,7 @@ resources:
   - bitnami-charts.yaml
   - cloudflare-issuer-charts.yaml
   - code-server-charts.yaml
+  - cronce-charts.yaml
   - deliveryhero-charts.yaml
   - descheduler-charts.yaml
   - djjudas21-charts.yaml

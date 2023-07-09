@@ -1,0 +1,27 @@
+---
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: nfs-client-duplicati
+  namespace: apps
+  annotations:
+    storageclass.kubernetes.io/is-default-class: "false"
+provisioner: k8s-sigs.io/nfs-subdir-external-provisioner # or choose another name, must match deployment's env PROVISIONER_NAME'
+volumeBindingMode: WaitForFirstConsumer
+parameters:
+  pathPattern: "apps/nfs-client-duplicati"
+  onDelete: retain
+  accessModes: ReadWriteMany
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: duplicati-data
+  namespace: apps
+spec:
+  accessModes:
+    - ReadWriteMany
+  storageClassName: nfs-client-duplicati
+  resources:
+    requests:
+      storage: 5Gi
