@@ -16,11 +16,6 @@ spec:
         name: grafana-charts
         namespace: flux-system
       interval: 5m
-  dependsOn:
-    - name: kube-prometheus-stack
-      namespace: observability
-    - name: promtail
-      namespace: observability
   values:
     #https://grafana.com/docs/loki/next/installation/helm/reference/
     backend:
