@@ -28,7 +28,7 @@ spec:
   # The secret name where cert-manager should store the signed certificate
   secretName: mqtt-emqx-karva-tls
   dnsNames:
-    - mqtt-emqx.${CLUSTER_DOMAIN}
+    - mqttemqx.${CLUSTER_DOMAIN}
   # Duration of the certificate
   duration: 1680h
   # Renew a day before the certificate expiration

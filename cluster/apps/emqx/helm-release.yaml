@@ -53,7 +53,7 @@ spec:
           cert-manager.io/issuer: prod-issuer
           cert-manager.io/issuer-kind: OriginIssuer
           cert-manager.io/issuer-group: cert-manager.k8s.cloudflare.com
-          field.cattle.io/publicEndpoints: '[{"addresses":["${METALLB_TRAEFIK_ADDR}"],"port":443,"protocol":"HTTPS","serviceName":"apps:emqx","ingressName":"apps:emqx","hostname":"mqtt-emqx.${CLUSTER_DOMAIN}","allNodes":false}]'
+          field.cattle.io/publicEndpoints: '[{"addresses":["${METALLB_TRAEFIK_ADDR}"],"port":443,"protocol":"HTTPS","serviceName":"apps:emqx","ingressName":"apps:emqx","hostname":"mqttemqx.${CLUSTER_DOMAIN}","allNodes":false}]'
           meta.helm.sh/release-name: emqx
           meta.helm.sh/release-namespace: apps
           nginx.ingress.kubernetes.io/proxy-connect-timeout: "30"
@@ -61,11 +61,11 @@ spec:
           nginx.ingress.kubernetes.io/proxy-send-timeout: "1800"
           nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
         hosts:
-          - host: mqtt-emqx.${CLUSTER_DOMAIN}
+          - host: mqttemqx.${CLUSTER_DOMAIN}
             paths:
               - path: /
                 pathType: Prefix
         tls:
           - hosts:
-              - mqtt-emqx.${CLUSTER_DOMAIN}
+              - mqttemqx.${CLUSTER_DOMAIN}
             secretName: "mqtt-emqx-tls"
