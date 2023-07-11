@@ -3,6 +3,6 @@ kind: Kustomization
 resources:
   - home-assistant
   - code-server
-  - duplicati
+  - emqx
   - heimdall
   - node-red
