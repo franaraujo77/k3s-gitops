@@ -37,7 +37,8 @@ spec:
           nginx.ingress.kubernetes.io/proxy-read-timeout: "1800"
           nginx.ingress.kubernetes.io/proxy-send-timeout: "1800"
           nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
-        hosts: emqx.${CLUSTER_DOMAIN}
+        hosts: 
+          - host: emqx.${CLUSTER_DOMAIN}
         path: /
         pathType: Prefix
         tls:
@@ -58,7 +59,8 @@ spec:
           nginx.ingress.kubernetes.io/proxy-read-timeout: "1800"
           nginx.ingress.kubernetes.io/proxy-send-timeout: "1800"
           nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
-        hosts: mqttemqx.${CLUSTER_DOMAIN}
+        hosts: 
+          - host: mqttemqx.${CLUSTER_DOMAIN}
         path: /
         pathType: Prefix
         tls:
