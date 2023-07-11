@@ -6,10 +6,10 @@ resources:
   - bitnami-charts.yaml
   - cloudflare-issuer-charts.yaml
   - code-server-charts.yaml
-  - cronce-charts.yaml
   - deliveryhero-charts.yaml
   - descheduler-charts.yaml
   - djjudas21-charts.yaml
+  - emqx-charts.yaml
   - external-dns-charts.yaml
   - grafana-charts.yaml
   - hajimari-charts.yaml
