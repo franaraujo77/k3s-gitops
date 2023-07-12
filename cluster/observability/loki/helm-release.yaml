@@ -86,4 +86,4 @@ spec:
       lokiCanary:
         enabled: false
       selfMonitoring:
-        enabled: false
+        enabled: true
