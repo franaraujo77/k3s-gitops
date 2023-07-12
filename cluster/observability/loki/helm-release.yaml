@@ -42,6 +42,8 @@ spec:
         tag: latest
       persistence:
         storageClass: loki-storage-class
+    test:
+      enabled: false
     gateway:
       image:
         tag: latest
