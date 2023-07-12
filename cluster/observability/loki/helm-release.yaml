@@ -35,6 +35,7 @@ spec:
       persistence:
         storageClass: loki-storage-class
     test:
+      enabled: false
       image:
         tag: latest
     write:
@@ -42,8 +43,6 @@ spec:
         tag: latest
       persistence:
         storageClass: loki-storage-class
-    test:
-      enabled: false
     gateway:
       image:
         tag: latest
@@ -86,4 +85,4 @@ spec:
       lokiCanary:
         enabled: false
       selfMonitoring:
-        enabled: true
+        enabled: false
