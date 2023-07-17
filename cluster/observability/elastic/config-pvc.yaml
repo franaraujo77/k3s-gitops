@@ -11,16 +11,3 @@ parameters:
   pathPattern: "apps/nfs-client-elastic"
   onDelete: retain
   accessModes: ReadWriteMany
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: elasticsearch-data
-  namespace: observability
-spec:
-  accessModes:
-    - ReadWriteMany
-  storageClassName: nfs-client-elastic
-  resources:
-    requests:
-      storage: 100Gi

@@ -3,4 +3,5 @@ kind: Kustomization
 resources:
   - helm-release.yaml
   - certificate.yaml
+  - elastic.yaml
   - config-pvc.yaml
