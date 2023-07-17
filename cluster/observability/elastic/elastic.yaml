@@ -129,17 +129,10 @@ spec:
   daemonSet:
     podTemplate:
       spec:
-        automountServiceAccountToken: true
-        serviceAccountName: elastic-agent-logging
         containers:
         - name: agent
           securityContext:
             runAsUser: 0
-          env:
-          - name: NODE_NAME
-            valueFrom:
-              fieldRef:
-                fieldPath: spec.nodeName
   config:
     id: 488e0b80-3634-11eb-8208-57893829af4e
     revision: 2
@@ -150,119 +143,113 @@ spec:
         logs: true
         metrics: true
     inputs:
-    - name: system-1
+    - id: 4917ade0-3634-11eb-8208-57893829af4e
+      name: system-1
       revision: 1
       type: system/metrics
       use_output: default
       meta:
         package:
           name: system
-          version: 0.9.1
+          version: 8.8.2
       data_stream:
         namespace: default
       streams:
-        - id: system/metrics-system.cpu
-          data_stream:
-            dataset: system.cpu
-            type: metrics
-          metricsets:
-            - cpu
-          cpu.metrics:
-            - percentages
-            - normalized_percentages
-          period: 10s
-    - id: 678daef0-3634-11eb-8208-57893829af4e
-      name: kubernetes-1
-      revision: 1
-      type: kubernetes/metrics
-      use_output: default
-      meta:
-        package:
-          name: kubernetes
-          version: 0.2.8
-      data_stream:
-        namespace: k8s
-      streams:
-      - id: kubernetes/metrics-kubernetes.apiserver
+      - id: system/metrics-system.cpu
         data_stream:
-          dataset: kubernetes.apiserver
+          dataset: system.cpu
           type: metrics
         metricsets:
-        - apiserver
-        bearer_token_file: /var/run/secrets/kubernetes.io/serviceaccount/token
-        hosts:
-        - 'https://${env.KUBERNETES_SERVICE_HOST}:${env.KUBERNETES_SERVICE_PORT}'
-        period: 30s
-        ssl.certificate_authorities:
-        - /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
-      - id: kubernetes/metrics-kubernetes.container
-        data_stream:
-          dataset: kubernetes.container
-          type: metrics
-        metricsets:
-        - container
-        add_metadata: true
-        bearer_token_file: /var/run/secrets/kubernetes.io/serviceaccount/token
-        hosts:
-        - 'https://${env.NODE_NAME}:10250'
+        - cpu
+        cpu.metrics:
+        - percentages
+        - normalized_percentages
         period: 10s
-        ssl.verification_mode: none
-      - id: kubernetes/metrics-kubernetes.event
+      - id: system/metrics-system.diskio
         data_stream:
-          dataset: kubernetes.event
+          dataset: system.diskio
           type: metrics
         metricsets:
-        - event
+        - diskio
+        diskio.include_devices: null
         period: 10s
-        add_metadata: true
-      - id: kubernetes/metrics-kubernetes.node
+      - id: system/metrics-system.filesystem
         data_stream:
-          dataset: kubernetes.node
+          dataset: system.filesystem
           type: metrics
         metricsets:
-        - node
-        add_metadata: true
-        bearer_token_file: /var/run/secrets/kubernetes.io/serviceaccount/token
-        hosts:
-        - 'https://${env.NODE_NAME}:10250'
-        period: 10s
-        ssl.verification_mode: none
-      - id: kubernetes/metrics-kubernetes.pod
+        - filesystem
+        period: 1m
+        processors:
+        - drop_event.when.regexp:
+            system.filesystem.mount_point: ^/(sys|cgroup|proc|dev|etc|host|lib|snap)($|/)
+      - id: system/metrics-system.fsstat
         data_stream:
-          dataset: kubernetes.pod
+          dataset: system.fsstat
           type: metrics
         metricsets:
-        - pod
-        add_metadata: true
-        bearer_token_file: /var/run/secrets/kubernetes.io/serviceaccount/token
-        hosts:
-        - 'https://${env.NODE_NAME}:10250'
-        period: 10s
-        ssl.verification_mode: none
-      - id: kubernetes/metrics-kubernetes.system
+        - fsstat
+        period: 1m
+        processors:
+        - drop_event.when.regexp:
+            system.fsstat.mount_point: ^/(sys|cgroup|proc|dev|etc|host|lib|snap)($|/)
+      - id: system/metrics-system.load
         data_stream:
-          dataset: kubernetes.system
+          dataset: system.load
           type: metrics
         metricsets:
-        - system
-        add_metadata: true
-        bearer_token_file: /var/run/secrets/kubernetes.io/serviceaccount/token
-        hosts:
-        - 'https://${env.NODE_NAME}:10250'
+        - load
         period: 10s
-        ssl.verification_mode: none
-      - id: kubernetes/metrics-kubernetes.volume
+      - id: system/metrics-system.memory
         data_stream:
-          dataset: kubernetes.volume
+          dataset: system.memory
           type: metrics
         metricsets:
-        - volume
-        add_metadata: true
-        bearer_token_file: /var/run/secrets/kubernetes.io/serviceaccount/token
-        hosts:
-        - 'https://${env.NODE_NAME}:10250'
+        - memory
         period: 10s
-        ssl.verification_mode: none
+      - id: system/metrics-system.network
+        data_stream:
+          dataset: system.network
+          type: metrics
+        metricsets:
+        - network
+        period: 10s
+        network.interfaces: null
+      - id: system/metrics-system.process
+        data_stream:
+          dataset: system.process
+          type: metrics
+        metricsets:
+        - process
+        period: 10s
+        process.include_top_n.by_cpu: 5
+        process.include_top_n.by_memory: 5
+        process.cmdline.cache.enabled: true
+        process.cgroups.enabled: false
+        process.include_cpu_ticks: false
+        processes:
+        - .*
+      - id: system/metrics-system.process_summary
+        data_stream:
+          dataset: system.process_summary
+          type: metrics
+        metricsets:
+        - process_summary
+        period: 10s
+      - id: system/metrics-system.socket_summary
+        data_stream:
+          dataset: system.socket_summary
+          type: metrics
+        metricsets:
+        - socket_summary
+        period: 10s
+      - id: system/metrics-system.uptime
+        data_stream:
+          dataset: system.uptime
+          type: metrics
+        metricsets:
+        - uptime
+        period: 10s
 ---
 apiVersion: kibana.k8s.elastic.co/v1
 kind: Kibana
@@ -288,111 +275,3 @@ spec:
   config:
     server.publicBaseUrl: https://kibana.${CLUSTER_DOMAIN}
     csp.strict: false
----
-apiVersion: beat.k8s.elastic.co/v1beta1
-kind: Beat
-metadata:
-  name: metricbeat
-  namespace: observability
-spec:
-  type: metricbeat
-  version: 8.8.2
-  elasticsearchRef:
-    name: elasticsearch-logging
-    namespace: observability
-  kibanaRef:
-    name: kibana-logging
-    namespace: observability
-  config:
-    metricbeat:
-      autodiscover:
-        providers:
-        - hints:
-            default_config: {}
-            enabled: "true"
-          node: ${NODE_NAME}
-          type: kubernetes
-      modules:
-      - module: system
-        period: 10s
-        metricsets:
-        - cpu
-        - load
-        - memory
-        - network
-        - process
-        - process_summary
-        process:
-          include_top_n:
-            by_cpu: 5
-            by_memory: 5
-        processes:
-        - .*
-      - module: system
-        period: 1m
-        metricsets:
-        - filesystem
-        - fsstat
-        processors:
-        - drop_event:
-            when:
-              regexp:
-                system:
-                  filesystem:
-                    mount_point: ^/(sys|cgroup|proc|dev|etc|host|lib)($|/)
-      - module: kubernetes
-        period: 10s
-        node: ${NODE_NAME}
-        hosts:
-        - https://${NODE_NAME}:10250
-        bearer_token_file: /var/run/secrets/kubernetes.io/serviceaccount/token
-        ssl:
-          verification_mode: none
-        metricsets:
-        - node
-        - system
-        - pod
-        - container
-        - volume
-    processors:
-    - add_cloud_metadata: {}
-    - add_host_metadata: {}
-  daemonSet:
-    podTemplate:
-      spec:
-        serviceAccountName: metricbeat
-        automountServiceAccountToken: true # some older Beat versions are depending on this settings presence in k8s context
-        containers:
-        - args:
-          - -e
-          - -c
-          - /etc/beat.yml
-          - -system.hostfs=/hostfs
-          name: metricbeat
-          volumeMounts:
-          - mountPath: /hostfs/sys/fs/cgroup
-            name: cgroup
-          - mountPath: /var/run/docker.sock
-            name: dockersock
-          - mountPath: /hostfs/proc
-            name: proc
-          env:
-          - name: NODE_NAME
-            valueFrom:
-              fieldRef:
-                fieldPath: spec.nodeName
-        dnsPolicy: ClusterFirstWithHostNet
-        hostNetwork: true # Allows to provide richer host metadata
-        securityContext:
-          runAsUser: 0
-        terminationGracePeriodSeconds: 30
-        volumes:
-        - hostPath:
-            path: /sys/fs/cgroup
-          name: cgroup
-        - hostPath:
-            path: /var/run/docker.sock
-          name: dockersock
-        - hostPath:
-            path: /proc
-          name: proc
