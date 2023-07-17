@@ -53,33 +53,36 @@ spec:
     name: kibana-logging
     namespace: observability
   config:
-    filebeat:
-      autodiscover:
-        providers:
-        - type: kubernetes
-          node: ${NODE_NAME}
-          hints:
-            enabled: true
-            default_config:
-              type: container
-              paths:
-              - /var/log/containers/*${data.kubernetes.container.id}.log
+    filebeat.autodiscover.providers:
+    - node: ${NODE_NAME}
+      type: kubernetes
+      hints.default_config.enabled: "false"
+      templates:
+      - condition.equals.kubernetes.namespace: log-namespace
+        config:
+        - paths: ["/var/log/containers/*${data.kubernetes.container.id}.log"]
+          type: container
+      - condition.equals.kubernetes.labels.log-label: "true"
+        config:
+        - paths: ["/var/log/containers/*${data.kubernetes.container.id}.log"]
+          type: container
     processors:
     - add_cloud_metadata: {}
     - add_host_metadata: {}
   daemonSet:
     podTemplate:
       spec:
+        serviceAccountName: filebeat
         automountServiceAccountToken: true
         terminationGracePeriodSeconds: 30
         dnsPolicy: ClusterFirstWithHostNet
-        hostNetwork: true
-        securityContext:
-          runAsUser: 0
+        hostNetwork: true # Allows to provide richer host metadata
         containers:
         - name: filebeat
           securityContext:
             runAsUser: 0
+            # If using Red Hat OpenShift uncomment this:
+            #privileged: true
           volumeMounts:
           - name: varlogcontainers
             mountPath: /var/log/containers
