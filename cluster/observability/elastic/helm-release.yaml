@@ -6,9 +6,6 @@ metadata:
   namespace: observability
 spec:
   interval: 10m
-  dependsOn:
-    - name: elastic-crds
-      namespace: observability
   chart:
     spec:
       # renovate: registryUrl=https://helm.elastic.co
@@ -21,7 +18,7 @@ spec:
       interval: 5m
   values:
     # https://www.elastic.co/guide/en/cloud-on-k8s/current/k8s-install-helm.html
-    installCRDs: true
+    installCRDs: false
     webhook:
       certManagerCert: elastic-karva
     podMonitor:
