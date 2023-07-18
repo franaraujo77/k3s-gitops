@@ -21,7 +21,7 @@ spec:
       interval: 5m
   values:
     # https://www.elastic.co/guide/en/cloud-on-k8s/current/k8s-install-helm.html
-    installCRDs: false
+    installCRDs: true
     webhook:
       certManagerCert: elastic-karva
     podMonitor:
