@@ -260,7 +260,7 @@ metadata:
     k8s-app: kibana-logging
 spec:
   version: 8.8.2
-  count: 1
+  count: 2
   elasticsearchRef:
     name: elasticsearch-logging
   http:
@@ -269,8 +269,7 @@ spec:
         type: LoadBalancer # default is ClusterIP
     tls:
       selfSignedCertificate:
-        subjectAltNames:
-        - dns: kibana.${CLUSTER_DOMAIN}
+        disabled: true
 
   config:
     server.publicBaseUrl: https://kibana.${CLUSTER_DOMAIN}
