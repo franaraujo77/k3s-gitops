@@ -12,6 +12,7 @@ resources:
   - elastic-charts.yaml
   - emqx-charts.yaml
   - external-dns-charts.yaml
+  - franaraujo77-charts.yaml
   - grafana-charts.yaml
   - hajimari-charts.yaml
   - hashicorp-charts.yaml
