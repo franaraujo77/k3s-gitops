@@ -8,7 +8,7 @@ spec:
   interval: 1h
   dependsOn:
     - name: rancher
-      namespace: core
+      namespace: cattle-system
   chart:
     spec:
       # renovate: registryUrl=https://cloudflare.github.io/origin-ca-issuer/charts
