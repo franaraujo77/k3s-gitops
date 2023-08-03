@@ -26,6 +26,7 @@ spec:
     remediation:
       remediateLastFailure: true
   values:
+    replicaCount: 2
     image:
       tag: latest
     extraArgs:

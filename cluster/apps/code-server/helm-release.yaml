@@ -26,6 +26,7 @@ spec:
     remediation:
       remediateLastFailure: true
   values:
+    replicas: 2
     extraArgs:
       - --user-data-dir
       - /data/config/.vscode
