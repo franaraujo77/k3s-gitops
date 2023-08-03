@@ -4,5 +4,4 @@ resources:
   - home-assistant
   - code-server
   - emqx
-  - heimdall
   - node-red
