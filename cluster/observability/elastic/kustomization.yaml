@@ -7,7 +7,7 @@ resources:
   - config-pvc.yaml
 secretGenerator:
 - name: service-key
-  namespace: database
+  namespace: observability
   options:
     disableNameSuffixHash: true
   envs:
