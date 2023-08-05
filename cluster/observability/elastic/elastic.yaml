@@ -13,7 +13,7 @@ spec:
   transport:
     service:
       spec:
-        type: LoadBalancer
+        type: ClusterIP
   nodeSets:
   - name: default
     count: 1
@@ -263,10 +263,26 @@ spec:
   count: 2
   elasticsearchRef:
     name: elasticsearch-logging
+  podTemplate:
+    spec:
+      containers:
+      - name: kibana
+        env:
+          - name: NODE_OPTIONS
+            value: "--max-old-space-size=2048"
+          - name: SERVER_PUBLICBASEURL
+            value: "https://kibana.${CLUSTER_DOMAIN}"
+        resources:
+          requests:
+            memory: 1Gi
+            cpu: 0.5
+          limits:
+            memory: 2.5Gi
+            cpu: 2
   http:
     service:
       spec:
-        type: LoadBalancer # default is ClusterIP
+        type: ClusterIP # default is ClusterIP
     tls:
       selfSignedCertificate:
         disabled: true
@@ -274,3 +290,37 @@ spec:
   config:
     server.publicBaseUrl: https://kibana.${CLUSTER_DOMAIN}
     csp.strict: false
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: kibana
+  namespace: observability
+  annotations:
+    cert-manager.io/issuer: prod-issuer
+    cert-manager.io/issuer-kind: OriginIssuer
+    cert-manager.io/issuer-group: cert-manager.k8s.cloudflare.com
+    field.cattle.io/publicEndpoints: '[{"addresses":["${METALLB_TRAEFIK_ADDR}"],"port":443,"protocol":"HTTPS","serviceName":"observability:kibana","ingressName":"observability:kibana","hostname":"kibana.${CLUSTER_DOMAIN}","allNodes":false}]'
+    meta.helm.sh/release-name: kibana
+    meta.helm.sh/release-namespace: observability
+    nginx.ingress.kubernetes.io/proxy-connect-timeout: "30"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "1800"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "1800"
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+spec:
+  ingressClassName: nginx
+  tls:
+  - hosts:
+    - kibana.${CLUSTER_DOMAIN}
+    secretName: elastic-karva-tls
+  rules:
+  - host: kibana.${CLUSTER_DOMAIN}
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: kibana-kb-http
+            port:
+              number: 5601
