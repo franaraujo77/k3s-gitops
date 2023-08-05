@@ -308,7 +308,6 @@ metadata:
     nginx.ingress.kubernetes.io/proxy-send-timeout: "1800"
     nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
 spec:
-  ingressClassName: nginx
   tls:
   - hosts:
     - kibana.${CLUSTER_DOMAIN}
