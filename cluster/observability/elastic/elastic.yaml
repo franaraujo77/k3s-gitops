@@ -321,6 +321,6 @@ spec:
         pathType: Prefix
         backend:
           service:
-            name: kibana-kb-http
+            name: kibana-logging-kb-http
             port:
               number: 5601
