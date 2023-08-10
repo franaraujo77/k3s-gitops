@@ -7,3 +7,4 @@ resources:
   - flux-system.yaml
   - networking.yaml
   - observability.yaml
+  - database.yaml
