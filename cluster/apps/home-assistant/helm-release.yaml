@@ -25,7 +25,7 @@ spec:
   values:
     replicaCount: 2
     image:
-      tag: stable
+      tag: latest
     env:
       TZ: "America/Sao_Paulo"
     ingress:
