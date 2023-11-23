@@ -31,7 +31,7 @@ spec:
       enabled: true
       image:
         repository: "hashicorp/vault"
-        tag: "1.14.1"
+        tag: "1.15.2"
         # Overrides the default Image Pull Policy
         pullPolicy: IfNotPresent
       updateStrategyType: "OnDelete"

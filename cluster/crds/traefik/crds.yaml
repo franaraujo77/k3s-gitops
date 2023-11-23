@@ -9,14 +9,14 @@ spec:
   url: https://github.com/traefik/traefik-helm-chart.git
   ref:
     #renovate: registryUrl=https://helm.traefik.io/traefik chart=traefik
-    tag: v24.0.0
+    tag: v25.0.0
   ignore: |
     # exclude all
     /*
     # path to crds
     !/traefik/crds/
 ---
-apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
+apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
   name: traefik-crds
